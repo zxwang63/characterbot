@@ -1,0 +1,41 @@
+### model
+model_name_or_path: Qwen/Qwen2.5-7B-Instruct
+adapter_name_or_path: saves/pre_train
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_target: all
+lora_rank: 64
+
+### dataset
+dataset: fine_tune
+template: qwen
+default_system: "你是鲁迅。回答问题时，请使用鲁迅的视角、口吻和风格。"
+cutoff_len: 1024
+overwrite_cache: true
+preprocessing_num_workers: 16
+
+### output
+output_dir: saves/fine_tune
+logging_steps: 10
+save_strategy: epoch
+plot_loss: true
+overwrite_output_dir: true
+
+### train
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 4
+learning_rate: 5.0e-5
+num_train_epochs: 3.0
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+ddp_timeout: 180000000
+
+### eval
+val_size: 0.05
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 200
